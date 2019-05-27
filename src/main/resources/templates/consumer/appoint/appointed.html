@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>已预约</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+    <script th:src="@{js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{js/bootstrap.min.js}"></script>
+
+    <script>
+
+
+    </script>
+</head>
+<body>
+<div th:replace="consumer/consumer.html::consumerNav" ></div>
+<br>
+<img th:src="@{img/appointed.jpg}" style="width: 80%; height: 200px" class="center-block">
+<br>
+<table class="table table-hover text-center" style="width: 80%" align="center">
+
+    <tbody>
+    <tr th:each="p: ${page.list}">
+        <td th:text="${p.getTime()}"></td>
+        <td ><img th:src="${p.getPhoto()}" th:width="50px"></td>
+        <td th:text="${p.getShopname()}"></td>
+        <td ><a class="btn btn-info btn-small"
+                th:href="@{/cancelAppointment(aid = ${p.getAid()})}"
+        >取消预约</a></td>
+    </tr>
+    </tbody>
+</table>
+
+    <div class="container text-center">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <ul class="pagination">
+                    <li>
+                        <a th:href="@{/consumerAppointed(start=0)}">首  页</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/consumerAppointed(start=${page.pageNum+(-1)})}">上一页</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/consumerAppointed(start=${page.pageNum+1})}">下一页</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/consumerAppointed(start=${page.pages})}">末  页</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+</body>
+</html>

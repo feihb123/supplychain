@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>模拟生产</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+    <script th:src="@{js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{js/bootstrap.min.js}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.ajax({
+                type: "post",
+                url: "/getType",
+                dataType:"json",
+                data:{companyName:$("#companyName").val()},
+                success: function (data) {
+                    /*data = JSON.parse(data);*/
+                    $("#type").append("<option value=''  selected='selected'>请选择配件类型</option>");
+                    for (var i = 0; i < data.length; i++) {
+                        $("#type").append("<option  value='"+data[i]+"'>"+data[i]+"</option>");
+                    }
+
+                }
+            });
+        });
+
+        function getResp() {
+            $.ajax({
+                type: "post",
+                url: "/manufacture",
+                dataType: "json",
+                data: {companyName: $("#companyName").val(),
+                    productId:$("#productId").val(),
+                    productName:$("#productName").val(),
+                    type:$("#type").val()
+                },
+                success: function (data) {
+                    //data = JSON.parse(data);
+                    $("#msg").text(data);
+                },
+                error:function (data) {
+                    alert("内容非法或该新配件id已存在，请重新输入!");
+                }
+
+            });
+        }
+
+
+    </script>
+</head>
+<body>
+<div th:replace="producer/producer.html::proNav" ></div>
+<div class="panel panel-default text-center">
+    <h1>模拟生产</h1>
+    <div class="alert alert-warning text-center center-block" style="width: 500px" >
+        <strong >提示：</strong><span id="msg">等待生产汽配...</span>
+    </div>
+    <div style="padding: 50px 100px 10px;" align="center">
+
+            <div class="input-group" >
+                <span class="input-group-addon" style="width:100px;">制造商</span>
+                <input name="companyName" id="companyName"
+                       type="text" class="form-control" placeholder="制造商"
+                th:value="${session.companyName}"  readonly="readonly" style="width:300px; text-align: center">
+            </div>
+            <br><div class="input-group">
+                <span class="input-group-addon" style="width:100px;">汽配ID</span>
+                <input name="productId" id="productId"
+                       type="text" class="form-control" placeholder="汽配ID"
+                 style="width:300px; text-align: center">
+            </div>
+            <br>
+            <div class="input-group">
+                <span class="input-group-addon" style="width:100px;">汽配名称</span>
+                <input name="productName" id="productName"
+                       type="text" class="form-control" placeholder="汽配名称"
+                 style="width:300px; text-align: center">
+            </div>
+            <br>
+            <select class="selectpicker show-tick form-control" data-live-search="true" style="width:400px; text-align-last: center;"
+            id="type" name="type">
+            </select>
+
+            <br><br>
+            <div class="btn-group btn-group-lg" >
+                <button  class="btn btn-default" onclick="getResp()" style="width:200px;" >生产此汽配</button>
+            </div>
+            <br><br><br><br>
+    </div>
+</div>
+
+</body>
+</html>

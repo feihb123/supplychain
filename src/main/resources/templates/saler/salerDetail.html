@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>批发商主页</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{js/bootstrap.min.js}"></script>
+
+
+    <script>
+        function update(obj){
+            /*点击修改按钮，给模态框加载信息并且弹出模态框*/
+            var tds= $(obj).parent().parent().find('td');
+            $("#productId").val(tds.eq(0).text());
+            $("#aprice").val(tds.eq(5).text());
+            $("#companyName").val(tds.eq(1).text());
+
+        }
+        function calculate(){
+            var aprice = $("#aprice").val();
+            $("#price").val(aprice*$("#amount").val());
+        }
+    </script>
+</head>
+<body>
+<div th:replace="saler/saler.html::whoNav" ></div>
+<h1 class="text-center">欢迎光临 </h1><a th:value=" ${wholesalerId}"></a>
+<div class="panel panel-default center-block">
+
+    <table class="table table-hover text-center">
+        <thead>
+        <tr>
+            <th class="text-center">汽配id</th>
+            <th class="text-center">制造商</th>
+            <th class="text-center">汽配名</th>
+            <th class="text-center">汽配类型</th>
+            <th class="text-center">数量</th>
+            <th class="text-center">单价</th>
+            <th class="text-center">采购</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="p: ${salerDetail}">
+            <td th:text="${p.getProductId()}"></td>
+            <td th:text="${p.getCompanyName()}"></td>
+            <td th:text="${p.getProductName()}"></td>
+            <td th:text="${p.getType()}"></td>
+            <td th:text="${p.getAmount()}"></td>
+            <td th:text="${p.getPrice()}"></td>
+            <td ><a class="btn btn-info btn-small" data-toggle="modal" data-target="#addModal" type="button"
+                    onclick="update(this)" >采购</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!--模态框（Modal）-->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">采购</h4>
+                </div>
+                <form class="bs-example bs-example-form" role="form" action="" method="post">
+                <div class="modal-body">
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon">厂商</span>
+                        <input type="text" name="companyName" id="companyName" class="form-control" readonly="readonly">
+                    </div>
+                    <br>
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon">汽配id</span>
+                        <input type="text" name="productId" id="productId" class="form-control" readonly="readonly">
+                    </div>
+                    <br>
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon"> 单  价 </span>
+                        <input type="text" name="aprice" id="aprice" class="form-control" readonly="readonly">
+                    </div>
+                    <br>
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon"> 数  量 </span>
+                        <input type="text" name="amount" id="amount" class="form-control" placeholder="请输入数量"
+                               onchange="calculate()"  onkeyup="this.value=this.value.replace(/[^0-9-]+/,'');">
+                    </div>
+                    <br>
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon"> 地  址 </span>
+                        <input type="text" name="address" id="address" class="form-control" placeholder="请输入地址">
+                    </div><br>
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon"> 总  价 </span>
+                        <input type="text" name="price" id="price" class="form-control" placeholder="" readonly="readonly">
+                    </div>
+                    <br>
+                    <br>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button  type="submit" class="btn btn-primary" name="submit">提交</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

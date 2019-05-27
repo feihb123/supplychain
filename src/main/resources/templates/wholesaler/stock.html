@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>批发商主页</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{js/bootstrap.min.js}"></script>
+
+</head>
+<body>
+<div th:replace="wholesaler/wholesaler.html::whoNav" ></div>
+<div class="panel panel-default center-block">
+
+    <table class="table table-hover text-center">
+        <thead>
+        <tr>
+            <th class="text-center">制造商</th>
+            <th class="text-center">图标</th>
+            <th class="text-center">地址</th>
+            <th class="text-center">电话</th>
+            <th class="text-center">采购</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="p: ${stock}">
+            <td th:text="${p.getCompanyName()}"></td>
+            <td th:text="${p.getPhoto()}"></td>
+            <td th:text="${p.getLocation()}"></td>
+            <td th:text="${p.getPhone()}"></td>
+            <td ><a class="btn btn-info btn-small"
+            th:href="@{/detail(companyName=${p.getCompanyName()})}"
+            >采购</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>预约列表</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{js/bootstrap.min.js}"></script>
+
+
+
+</head>
+<body>
+<div th:replace="saler/saler.html::whoNav" ></div>
+<div class="panel panel-default center-block">
+    <div class="page-header text-center">
+        <h3>预约列表</h3>
+    </div>
+    <table class="table table-hover text-center">
+        <thead>
+        <tr>
+            <th class="text-center">预约单号</th>
+            <th class="text-center">客户名称</th>
+            <th class="text-center">年份</th>
+            <th class="text-center">车型</th>
+            <th class="text-center">车号</th>
+            <th class="text-center">预约时间</th>
+            <th class="text-center">维修项目</th>
+            <th class="text-center">联系方式</th>
+            <th class="text-center">受理人</th>
+            <th class="text-center">登记时间</th>
+            <th class="text-center">备注</th>
+            <th class="text-center">操作</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="p: ${salerSubscribe}">
+            <td th:text="${p.getOddNumber()}"></td>
+            <td th:text="${p.getCustomerName()}"></td>
+            <td th:text="${p.getYear()}"></td>
+            <td th:text="${p.getType()}"></td>
+            <td th:text="${p.getWagonNumber()}"></td>
+            <td th:text="${p.getAppointmentTime()}"></td>
+            <td th:text="${p.getMaintenance()}"></td>
+            <td th:text="${p.getPhone()}"></td>
+            <td th:text="${p.getSalerName()}"></td>
+            <td th:text="${p.getRegisterTime()}"></td>
+            <td th:text="${p.getComment()}"></td>
+            <td ><a class="btn btn-info btn-small" onclick="javascript:if(confirm('是否接受客户的预约？')==false)return false;"
+                    th:href="@{/changeStatus1(oddNumber=${p.getOddNumber()},
+                    statusId=${p.getStatusId()})}">接受预约</a>
+            </td>
+            <td ><a class="btn btn-info btn-small" onclick="javascript:if(confirm('是否要拒绝客户预约？')==false)return false;"
+                    th:href="@{/changeStatus2(oddNumber=${p.getOddNumber()},
+                    statusId=${p.getStatusId()})}">拒绝预约</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<input type="hidden" th:name="${session.companyName}" id="cn">
+
+
+

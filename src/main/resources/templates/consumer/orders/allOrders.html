@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>全部订单</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+    <script th:src="@{js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{js/bootstrap.min.js}"></script>
+
+    <script>
+        function update(obj){
+            /*点击修改按钮，给模态框加载信息并且弹出模态框*/
+            var tds= $(obj).parent().parent().find('td');
+            $("#oid").val(tds.eq(4).text());
+            $("#tel").val(tds.eq(5).text());
+            $("#address").val(tds.eq(6).text());
+            $("#otime").val(tds.eq(7).text());
+        }
+
+
+    </script>
+</head>
+<body>
+<div th:replace="consumer/consumer.html::consumerNav" ></div>
+<div class="text-center">
+    <br>
+<table class="table table-hover"  align="center" style="width: 75%">
+    <tbody>
+    <tr th:each="p: ${page.list}">
+        <td ><img th:src="${p.getPhoto()}" style="width: 50px;height: 50px"></td>
+        <td th:text="${p.getProductName()}"></td>
+        <td th:text="'￥'+${p.getPrice()}"></td>
+        <td th:text="${p.getMeaning()}"></td>
+
+        <td th:text="${p.getOrderId()}" hidden="hidden" ></td>
+        <td th:text="${p.getTel()}" hidden="hidden" ></td>
+        <td th:text="${p.getAddress()}" hidden="hidden" ></td>
+        <td th:text="${p.getTime()}" hidden="hidden" ></td>
+
+        <td ><a  class="btn btn-info btn-small"  data-toggle="modal" data-target="#myModal"
+                onclick="update(this)"
+        >更多信息</a></td>
+    </tr>
+    </tbody>
+</table>
+    <div class="container text-center">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <ul class="pagination">
+                <li>
+                    <a th:href="@{/allOrders(start=0)}">首  页</a>
+                </li>
+                <li>
+                    <a th:href="@{/allOrders(start=${page.pageNum+(-1)})}">上一页</a>
+                </li>
+                <li>
+                    <a th:href="@{/allOrders(start=${page.pageNum+1})}">下一页</a>
+                </li>
+                <li>
+                    <a th:href="@{/allOrders(start=${page.pages})}">末  页</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    更多信息
+                </h4>
+            </div>
+
+                <div class="modal-body">
+
+                    <label class="col-sm-2 control-label">订单号</label>
+                    <div class="col-sm-10">
+                        <input class="form-control text-center" type="text" id="oid"  readonly="readonly"><br>
+                    </div>
+                    <label class="col-sm-2 control-label">联系电话</label>
+                    <div class="col-sm-10">
+                        <input class="form-control text-center" type="text" id="tel" readonly="readonly"><br>
+                    </div>
+                    <label class="col-sm-2 control-label">送达地址</label>
+                    <div class="col-sm-10">
+                        <input class="form-control text-center" type="text" id="address" readonly="readonly"><br>
+                    </div>
+                    <label class="col-sm-2 control-label">订单时间</label>
+                    <div class="col-sm-10">
+                        <input class="form-control text-center" id="otime" name="price" type="text" disabled="disabled">
+
+                    </div>
+                    <br><br><br><br><br><br><br><br><br><br>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

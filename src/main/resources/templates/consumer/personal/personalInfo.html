@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>个人信息</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{css/fileinput.min.css}">
+    <script th:src="@{js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{js/bootstrap.min.js}"></script>
+    <script th:src="@{js/fileinput.min.js}"></script>
+    <script th:src="@{js/zh.js}"></script>
+
+    <script>
+        $(document).ready(function() {
+            $("#sub").click(function () {
+                var file = $("#file").val();
+                if (file == "") {
+                    alert("未选择图片");
+                } else {
+                    this.form.submit();
+                }
+            });
+        });
+
+    </script>
+</head>
+<body>
+<div th:replace="consumer/consumer.html::consumerNav" ></div>
+<br>
+<div class="text-center">
+    <h1>个人信息</h1>
+    <img th:src="${info.getPhoto()}" class="img-circle"
+         alt="Cinque Terre" width="100" height="100">
+    <!--上传-隐藏预览框-->
+    <form enctype="multipart/form-data">
+        <div style="width: 350px;" class="center-block">
+            <input id="upload" type="file" class="file text-center"  name="file"
+                   data-show-preview="false"  style="width: 500px"/>
+        </div>
+    </form>
+    <br>
+
+    <form method="post"  action="/updateInfo" enctype="multipart/form-data">
+
+
+
+        <div class="input-group " style="margin-left: 630px ">
+            <span class="input-group-addon">用户名</span>
+            <input type="text" class="form-control text-center" style="width: 200px"
+                   th:value="${info.getUsername()}" readonly="readonly" >
+        </div>
+        <div class="input-group " style="margin-left: 630px ">
+            <span class="input-group-addon"> &nbsp昵&nbsp 称&nbsp</span>
+            <input type="text" class="form-control text-center" style="width: 200px" name="nickname"
+                   th:value="${info.getNickname()}"  >
+        </div>
+        <div class="input-group " style="margin-left: 630px ">
+            <span class="input-group-addon">&nbsp手&nbsp 机&nbsp</span>
+            <input type="text" class="form-control text-center" style="width: 200px" name="phone"
+                   th:value="${info.getPhone()}"  >
+        </div>
+        <div class="input-group " style="margin-left: 630px ">
+            <span class="input-group-addon"> Email &nbsp</span>
+            <input type="text" class="form-control text-center" style="width: 200px" name="email"
+                   th:value="${info.getEmail()}"  >
+        </div>
+        <br>
+        <button class="btn btn-info btn-small" type="submit">
+            修改信息
+        </button>
+    </form>
+</div>
+
+
+<script src="js/initFileInput.js"></script>
+<script>
+
+    initFileInput("upload","/uploadImg");
+
+</script>
+
+
+</body>
+</html>

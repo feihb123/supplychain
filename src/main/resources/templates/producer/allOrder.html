@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>全部订单</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+    <script th:src="@{js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{js/bootstrap.min.js}"></script>
+    <script>
+        function update(obj){
+
+            var tds= $(obj).parent().parent().find('td');
+            $("#orderId").val(tds.eq(0).text());
+            $("#productId").val(tds.eq(2).text());
+            $("#amount").val(tds.eq(3).text());
+            $("#price").val(tds.eq(4).text());
+            $("#address").val(tds.eq(5).text());
+            $("#status").val(tds.eq(6).text());
+            $("#phone").val(tds.eq(7).text());
+        }
+
+    </script>
+</head>
+<body>
+<div th:replace="producer/producer.html::proNav" ></div>
+<!--<div class="panel panel-default center-block">
+    <div class="page-header text-center">
+        <h1>欢迎光临易配汽配供应链</h1>
+    </div>
+</div>-->
+<div class="panel panel-default center-block">
+    <div class="page-header text-center">
+        <h3>全部订单</h3>
+    </div>
+    <table class="table table-hover text-center">
+        <thead>
+        <tr>
+            <th class="text-center">订单号</th>
+            <th class="text-center">创建时间</th>
+            <th class="text-center">汽配id</th>
+            <th class="text-center">数量</th>
+            <th class="text-center">价格</th>
+            <th class="text-center">查看详情</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="p: ${allOrder.list}">
+            <td th:text="${p.getOrderId()}"></td>
+            <td th:text="${p.getTime()}"></td>
+            <td th:text="${p.getProductId()}"></td>
+            <td th:text="${p.getAmount()}"></td>
+            <td th:text="${p.getPrice()}"></td>
+            <td th:text="${p.getAddress()}" hidden="hidden"></td>
+            <td th:text="${p.getMeaning()}" hidden="hidden"></td>
+            <td th:text="${p.getPhone()}" hidden="hidden"></td>
+            <td ><a class="btn btn-info btn-small" data-toggle="modal" data-target="#myModal"
+                    onclick="update(this)"  href="#">查看详情</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="container text-center">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <ul class="pagination">
+                    <li>
+                        <a th:href="@{/allOrder(start=0)}">首  页</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/allOrder(start=${allOrder.pageNum+(-1)})}">上一页</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/allOrder(start=${allOrder.pageNum+1})}">下一页</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/allOrder(start=${allOrder.pages})}">末  页</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    订单详情
+                </h4>
+            </div>
+            <form action="/updatePrice" method="post">
+                <div class="modal-body">
+
+                    <label class="col-sm-2 control-label">订单编号</label>
+                    <div class="col-sm-10">
+                        <input class="form-control text-center" type="text" id="orderId" name="orderId" readonly="readonly"><br>
+                    </div>
+                    <label class="col-sm-2 control-label">汽配编号</label>
+                    <div class="col-sm-10">
+                        <input class="form-control text-center" type="text" id="productId" readonly="readonly"><br>
+                    </div>
+                    <label class="col-sm-2 control-label">数量</label>
+                    <div class="col-sm-10">
+                        <input class="form-control text-center" type="text" id="amount" readonly="readonly"><br>
+                    </div>
+                    <label class="col-sm-2 control-label">收货地址</label>
+                    <div class="col-sm-10">
+                        <input class="form-control text-center" id="address" name="address" type="text" readonly="readonly"><br>
+                    </div>
+
+                    <label class="col-sm-2 control-label">订单价格</label>
+                    <div class="col-sm-10">
+                        <input class="form-control text-center" type="text" id="price" readonly="readonly"><br>
+                    </div>
+                    <label class="col-sm-2 control-label">联系电话</label>
+                    <div class="col-sm-10">
+                        <input class="form-control text-center" type="text" id="phone" readonly="readonly"><br>
+                    </div>
+                    <label class="col-sm-2 control-label">订单状态</label>
+                    <div class="col-sm-10">
+                        <input class="form-control text-center" id="status" name="status" type="text" readonly="readonly">
+
+                    </div>
+                    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+</body>
+</html>

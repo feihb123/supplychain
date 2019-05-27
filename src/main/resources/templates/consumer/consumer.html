@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8" >
+    <title>消费者主页</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+    <script th:src="@{js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{js/bootstrap.min.js}"></script>
+
+
+</head>
+<body>
+
+<nav class="navbar navbar-default" role="navigation" th:fragment="consumerNav">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">易配汽配供应链软件</a>
+            <a class="navbar-brand" th:text="'你好！'+${session.username}"></a>
+        </div>
+
+
+        <form class="navbar-form navbar-nav" action="/search" method="post">
+            <div class="form-group "  >
+                <select class="form-control"  style = "width:100px;" name="type" >
+                    <option value="product">汽配</option>
+                    <option value="saler">汽配商</option>
+                </select>
+                <input type="text" class="form-control" placeholder="Search" name="content">
+            </div>
+            <button type="submit" class="btn btn-default">搜索</button>
+        </form>
+
+        <div>
+            <ul class="nav navbar-nav pull-right">
+                <li><a th:href="@{/index}">主页</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        我的易配
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{/personalInfo}">个人信息管理</a></li>
+                    </ul>
+                </li>
+                <li><a th:href="@{/showCarts}">购物车</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        订单管理
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{/allOrders}">全部订单</a></li>
+                        <li><a th:href="@{/waitDeliverOrders}">待发货订单</a></li>
+                        <li><a th:href="@{/procedureOrders}">待收货订单</a></li>
+                        <li><a th:href="@{/evaluateOrders}">待评价订单</a></li>
+                        <li><a th:href="@{/afterSaleOrders}">售后订单</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        预约管理
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a th:href="@{/consumerAppoint}">预约</a></li>
+                        <li><a th:href="@{/consumerAppointed}">已预约</a></li>
+                    </ul>
+                </li>
+                <li><a th:href="@{/chat(toid=1)}">私信留言</a></li>
+                <li><a th:href="@{/design}">个性定制</a></li>
+                <li><a th:href="@{/}">退出</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="panel panel-default center-block">
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <div class="carousel slide" id="carousel-76558">
+                    <ol class="carousel-indicators">
+                        <li data-slide-to="0" data-target="#carousel-76558">
+                        </li>
+                        <li data-slide-to="1" data-target="#carousel-76558">
+                        </li>
+                        <li data-slide-to="2" data-target="#carousel-76558" class="active">
+                        </li>
+                    </ol>
+                    <div class="carousel-inner">
+                        <div class="item">
+                            <img alt="" th:src="@{/img/saler01.png}" width="200px" height="50px" />
+                            <div class="carousel-caption">
+                                <h4 style="color: #080808;">
+                                    沅键小店
+                                </h4 >
+                                <p style="color: #080808;">
+                                    新店开张 全场八折！
+                                </p>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <img alt="" th:src="@{/img/saler02.jpg}" width="200px" height="50px" />
+                            <div class="carousel-caption">
+                                <h4 style="color: #080808;">
+                                    xxx小店
+                                </h4>
+                                <p style="color: #080808;">
+                                   全场满100-20
+                                </p>
+                            </div>
+                        </div>
+                        <div class="item active">
+                            <img alt="" th:src="@{/img/saler03.jpg}" width="200px" height="50px" />
+                            <div class="carousel-caption">
+                                <h4 style="color: #080808;">
+                                    浩彬小店
+                                </h4>
+                                <p style="color: #080808;">
+                                    汽配买一送一！
+                                </p>
+                            </div>
+                        </div>
+                    </div> <a class="left carousel-control" href="#carousel-76558" data-slide="prev" ><span class="glyphicon glyphicon-chevron-left" ></span> </a> <a class="right carousel-control" href="#carousel-76558" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <table class="table table-hover text-center" style="width: 80%" align="center">
+
+        <tbody>
+        <tr th:each="p: ${page.list}">
+            <td ><img th:src="${p.getPhoto()}" th:width="65px"></td>
+            <td th:text="${p.getShopname()}"></td>
+            <td th:text="${p.getDesc()}"></td>
+            <td ><a class="btn btn-info btn-small"
+                    th:href="@{/shopContent(id=${p.getId()})}"
+            >进入店铺</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="container text-center">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <ul class="pagination">
+                <li>
+                    <a th:href="@{/index(start=0)}">首  页</a>
+                </li>
+                <li>
+                    <a th:href="@{/index(start=${page.pageNum+(-1)})}">上一页</a>
+                </li>
+                <li>
+                    <a th:href="@{/index(start=${page.pageNum+1})}">下一页</a>
+                </li>
+                <li>
+                    <a th:href="@{/index(start=${page.pages})}">末  页</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

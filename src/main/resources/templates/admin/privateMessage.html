@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>私信留言</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script src="https://unpkg.com/react@15.3.2/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+    <link rel="stylesheet" href="js/dist/css/bootstrap.min.css" />
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/dist/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div th:replace="/admin/admin.html::adminNav" ></div>
+<div class="panel panel-default center-block">
+    <div id="app"></div>
+    <script type="text/babel">
+        // 定义评论发送消息的子组件
+        var Content = React.createClass({
+            getInitialState:function () {
+                return {
+                    inputText:""
+                }
+            },
+            handleChange:function (event) {
+                this.setState({
+                    inputText:event.target.value
+                });
+            },
+            handleSubmit:function () {
+                console.log("发送给:"+this.props.selectName+",内容:"+this.state.inputText);
+                // 这里发送请求到后台
+                this.refs.comm.value = "";
+            },
+            render:function () {
+                return (
+                    <div>
+                 <textarea ref="comm" className="form-control" rows="8" onChange={this.handleChange} placeholder="请输入您的留言">
+                 </textarea>
+                        <br/>
+                        <button className="btn btn-primary" onClick={this.handleSubmit}>提交</button>
+                    </div>
+                );
+            }
+        });
+        // 定义评论的组件
+        var Comment = React.createClass({
+            getInitialState:function () {
+                return {
+                    names:["批发商","汽配商","制造商","消费者"],
+                    selectName:"管理员",
+                    style:{
+                        "width":"400px",
+                        "margin":"0 auto"
+                    }
+                };
+            },
+            handleSelect:function (event) {
+                this.setState({
+                    selectName:event.target.value
+                });
+            },
+            render:function () {
+                var options = [];
+                for(var option in this.state.names){
+                    options.push(<option value={this.state.names[option]}>{this.state.names[option]}</option>)
+                };
+                return (
+                    <div className="panel panel-body panel-primary" style={this.state.style}>
+                        <div className="form-group">
+                            <select onChange={this.handleSelect} className="form-control">
+                                {options}
+                            </select>
+                            <br/>
+                            <Content selectName={this.state.selectName}/>
+                        </div>
+                    </div>
+                );
+            }
+        });
+        ReactDOM.render(<Comment/>,document.getElementById("app"));
+    </script>
+</div>
+</body>
+</html>

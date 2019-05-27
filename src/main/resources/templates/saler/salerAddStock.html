@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>商品入库</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{js/bootstrap.min.js}"></script>
+
+
+</head>
+<body>
+<div th:replace="saler/saler.html::proNav" ></div>
+<div class="panel panel-default text-center">
+    <h1>商品入库</h1>
+    <div class="alert alert-warning text-center center-block" style="width: 500px" >
+        <strong >提示：</strong><span id="msg">等待商品入库</span>
+    </div>
+    <div style="padding: 50px 100px 10px;" align="center">
+
+
+        <br><div class="input-group">
+        <span class="input-group-addon" style="width:100px;">汽配ID</span>
+        <input name="productId" id="productId"
+               type="text" class="form-control" placeholder="汽配ID"
+               style="width:300px; text-align: center">
+    </div>
+
+        <br><div class="input-group">
+        <span class="input-group-addon" style="width:100px;">制造商</span>
+        <input name="productId" id="companyName"
+               type="text" class="form-control" placeholder="制造商"
+               style="width:300px; text-align: center">
+    </div>
+
+        <br>
+        <div class="input-group">
+            <span class="input-group-addon" style="width:100px;">汽配名称</span>
+            <input name="productName" id="productName"
+                   type="text" class="form-control" placeholder="汽配名称"
+                   style="width:300px; text-align: center">
+        </div>
+
+        <br><div class="input-group">
+        <span class="input-group-addon" style="width:100px;">数量</span>
+        <input name="productId" id="amount"
+               type="text" class="form-control" placeholder="数量"
+               style="width:300px; text-align: center">
+    </div>
+
+        <br><div class="input-group">
+        <span class="input-group-addon" style="width:100px;">价格</span>
+        <input name="productId" id="price"
+               type="text" class="form-control" placeholder="价格"
+               style="width:300px; text-align: center">
+    </div>
+
+
+        <br>
+        <select class="selectpicker show-tick form-control" data-live-search="true" style="width:400px; text-align-last: center;"
+                id="type" name="type">
+        </select>
+
+        <br><br>
+        <div class="btn-group btn-group-lg" >
+            <button  class="btn btn-default" onclick="getResp()" style="width:200px;" >商品入库</button>
+        </div>
+        <br><br><br><br>
+    </div>
+</div>
+
+</body>
+</html>

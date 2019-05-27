@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+
+</head>
+<body>
+<div th:replace="/wholesaler/wholesaler.html::whoNav" ></div>
+<div class="panel panel-default center-block">
+
+    <table class="table table-hover text-center">
+        <thead>
+        <tr>
+            <th class="text-center">汽配id</th>
+            <th class="text-center">制造商</th>
+            <th class="text-center">汽配名</th>
+            <th class="text-center">汽配类型</th>
+            <th class="text-center">汽配数量</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="p: ${list}">
+            <td th:text="${p.getProductId()}"></td>
+            <td th:text="${p.getCompanyName()}"></td>
+            <td th:text="${p.getProductName()}"></td>
+            <td th:text="${p.getType()}"></td>
+            <td th:text="${p.getAmount()}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

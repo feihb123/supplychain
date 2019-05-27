@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>待评价订单</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div th:replace="wholesaler/wholesaler.html::whoNav" ></div>
+<div class="panel panel-default center-block">
+    <div class="page-header text-center">
+        <h3>待评价订单</h3>
+    </div>
+    <table class="table table-hover text-center">
+        <thead>
+        <tr>
+            <th class="text-center">订单号</th>
+            <th class="text-center">创建时间</th>
+            <th class="text-center">汽配id</th>
+            <th class="text-center">数量</th>
+            <th class="text-center">价格</th>
+            <th class="text-center">地址</th>
+            <th class="text-center">状态</th>
+            <th class="text-center">操作</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="p: ${waitEvaluate}">
+            <td th:text="${p.getOrderId()}"></td>
+            <td th:text="${p.getTime()}"></td>
+            <td th:text="${p.getProductId()}"></td>
+            <td th:text="${p.getAmount()}"></td>
+            <td th:text="${p.getPrice()}"></td>
+            <td th:text="${p.getAddress()}"></td>
+            <td th:text="${p.getMeaning()}"></td>
+            <td ><a class="btn btn-info btn-small"
+                    th:href="@{/evaluation}">评价</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<input type="hidden" th:name="${session.companyName}" id="cn">
+</body>
+</html>

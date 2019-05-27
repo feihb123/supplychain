@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>模拟生产</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+    <script th:src="@{js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{js/bootstrap.min.js}"></script>
+    <script>
+        function getResp() {
+            $.ajax({
+                type: "post",
+                url: "/addline",
+                dataType: "json",
+                data: {
+                    companyName:$("#companyName").val(),
+                    typeName:$("#typeName").val()
+                },
+                success: function (data) {
+                    //data = JSON.parse(data);
+                    //$("#msg").text(data);
+                    alert(data);
+                    window.location.reload();
+                },
+                error:function (data) {
+                    alert("内容不能为空或流水线已存在，请重新输入!");
+                }
+
+            });
+        }
+
+        function del() {
+            var msg = "您真的确定要删除吗？\n";
+            if (confirm(msg)==true){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    </script>
+
+</head>
+<body>
+<div th:replace="producer/producer.html::proNav" ></div>
+<div class="panel panel-default text-center">
+
+    <div class="alert alert-warning text-center center-block" style="width: 500px" >
+        <strong >提示：</strong><span id="msg">添加流水线</span>
+    </div>
+    <div style="padding: 50px 100px 10px;" align="center">
+
+            <div class="input-group" >
+                <span class="input-group-addon" style="width:100px;">制造商</span>
+                <input name="companyName" id="companyName" type="text" class="form-control" placeholder="制造商"
+                th:value="${session.companyName}"  readonly="readonly" style="width:300px; text-align: center">
+            </div>
+            <br><div class="input-group">
+                <span class="input-group-addon" style="width:100px;">新流水线</span>
+                <input name="typeName" id="typeName" type="text" class="form-control" placeholder="新流水线名"
+                 style="width:300px; text-align: center">
+            </div>
+
+            <br><br>
+            <div class="btn-group btn-group-lg" >
+                <button onclick="getResp()" class="btn btn-default" style="width:200px;"  >添加流水线</button>
+            </div>
+            <br><br><br><br>
+
+    </div>
+</div>
+<div class="panel panel-default ">
+    <table class="table table-hover text-center" style="width: 800px;text-align: center" align="center" >
+        <thead>
+        <tr >
+            <th class="text-center">id</th>
+            <th class="text-center">制造商</th>
+            <th class="text-center">流水线</th>
+            <th class="text-center">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="p: ${page.list}">
+            <td th:text="${p.getTypeId()}"></td>
+            <td th:text="${p.getCompanyName()}"></td>
+            <td th:text="${p.getTypeName()}"></td>
+            <td ><a class="btn btn-info btn-small" th:href="@{/deleteLine(id=${p.getTypeId()})}" onclick="javascript:return del()">删除</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="container text-center">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <ul class="pagination">
+                    <li>
+                        <a th:href="@{/line(start=0)}">首  页</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/line(start=${page.pageNum+(-1)})}">上一页</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/line(start=${page.pageNum+1})}">下一页</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/line(start=${page.pages})}">末  页</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+</body>
+</html>

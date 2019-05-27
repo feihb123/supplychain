@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>店铺主页</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+    <script th:src="@{js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{js/bootstrap.min.js}"></script>
+
+    <script>
+        function addCart(obj) {
+            var tds = $(obj).parent().parent().find('td');
+            var salerId = tds.eq(0).text();
+            var proId = tds.eq(1).text();
+
+            $.ajax({
+                type: "post",
+                url: "/addCart",
+                dataType: "json",
+                data: {
+                    salerId:salerId,
+                    proId:proId
+                },
+                success: function (data) {
+                    alert(data);
+                },
+                error:function (data) {
+                    alert("加购异常");
+                }
+
+            });
+
+        }
+
+    </script>
+</head>
+<body>
+<div th:replace="consumer/consumer.html::consumerNav" ></div>
+<div class="text-center">
+<img th:src="@{${welcome}}" style="width: 75%; height: 150px">
+    <br><br><br>
+<table class="table table-hover"  align="center" style="width: 75%">
+    <tbody>
+    <tr th:each="p: ${page.list}">
+        <td th:text="${salerId}" hidden="hidden"></td>
+        <td th:text="${p.getProductId()}" hidden="hidden"></td>
+        <td ><img th:src="${p.getPhoto()}" style="width: 100px;height: 100px"></td>
+        <td th:text="${p.getProductName()}"></td>
+        <td th:text="${p.getCompanyName()}"></td>
+        <td th:text="'￥'+${p.getPrice()}"></td>
+        <td ><a class="btn btn-info btn-small"
+                onclick="addCart(this)"
+        >加入购物车</a></td>
+    </tr>
+    </tbody>
+</table>
+    <div class="container text-center">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <ul class="pagination">
+                    <li>
+                        <a th:href="@{/shopContent(id=${salerId},start=0)}">首  页</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/shopContent(id=${salerId},start=${page.pageNum+(-1)})}">上一页</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/shopContent(id=${salerId},start=${page.pageNum+1})}">下一页</a>
+                    </li>
+                    <li>
+                        <a th:href="@{/shopContent(id=${salerId},start=${page.pages})}">末  页</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

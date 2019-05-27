@@ -1,0 +1,245 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>私信留言</title>
+</head>
+<div th:replace="consumer/consumer.html::consumerNav" ></div>
+<link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+<script th:src="@{js/jquery-3.3.1.min.js}"></script>
+<script th:src="@{js/bootstrap.min.js}"></script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<style type="text/css">
+    .talk_con{
+        width:600px;
+        height:500px;
+        border:1px solid #a5b6c8;
+        margin:50px auto 0;
+        background:#f3faff;
+        border-radius:20px;
+
+    }
+    .talk_show{
+        width:580px;
+        height:420px;
+        border:1px solid #a5b6c8;
+        background:#fff;
+        margin:10px auto 0;
+        overflow:auto;
+        border-radius:15px;
+    }
+    .talk_input{
+        width:580px;
+        margin:10px auto 0;
+    }
+    .whotalk{
+        width:80px;
+        height:30px;
+        float:left;
+        outline:none;
+    }
+    .talk_word{
+        width:480px;
+        height:35px;
+        padding:0px;
+        float:left;
+        margin-left:10px;
+        outline:none;
+        text-indent:10px;
+        border:1px solid #a9c9e2;
+        border-radius:15px;
+    }
+    .talk_sub{
+        width:65px;
+        height:35px;
+        float:left;
+        margin-left:10px;
+    }
+    .atalk{
+        margin:10px;
+        font-size: 17px;
+    }
+    .atalk span{
+        display:inline-block;
+        background:#0181cc;
+        border-radius:10px;
+        color:#fff;
+        padding:5px 10px;
+    }
+    .btalk{
+        margin:10px;
+        text-align:right;
+        font-size: 17px;
+    }
+    .btalk span{
+        display:inline-block;
+        background:#ef8201;
+        border-radius:10px;
+        color:#fff;
+        padding:5px 10px;
+    }
+</style>
+
+
+<body>
+
+
+<table class="table table-hover text-center" style="width: 130px;float:left;margin: 20px 100px">
+    <thead><tr >
+        <th th:width="130px" class="text-center">最近</th>
+    </tr></thead>
+    <tbody class="text-info">
+        <tr th:each="c:${chats}">
+            <td th:text="${c.getShopname()}" th:width="65px"></td>
+            <td >
+                <a th:href="@{/chat(toid=${c.getId()})}">
+                    <img th:src="${c.getPhoto()}" th:width="65px"  >
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+    <div class="talk_con ">
+        <div class="talk_show" id="words">
+            <div class="atalk"><span id="asay">你好</span></div>
+            <div class="btalk"><span id="bsay">你好</span></div>
+        </div>
+        <div class="talk_input">
+
+            <input type="text" class="talk_word" id="talkwords" onkeydown="press(event)">
+            <input type="button" value="发送" class="talk_sub btn btn-info btn-small" id="talksub" >
+        </div>
+    </div>
+<div class="center-block">
+<input  type="text" id="from" hidden="hidden" th:value="${session.id}">
+<input  type="text" id="to" hidden="hidden" th:value="${to}">
+</div>
+
+</body>
+
+
+<script type="text/javascript">
+    //
+    window.onload = function(){
+        var Words = document.getElementById("words");
+        var Who = document.getElementById("who");
+        var TalkWords = document.getElementById("talkwords");
+        var TalkSub = document.getElementById("talksub");
+
+        TalkSub.onclick = function(){
+            //定义空字符串
+            var str = "";
+            if(TalkWords.value == ""){
+                // 消息为空时弹窗
+                alert("消息不能为空");
+                return;
+            }
+
+            str = '<div class="btalk"><span>' + TalkWords.value +'</span></div>' ;
+
+            Words.innerHTML = Words.innerHTML + str;
+            //发送信息
+            send();
+            //清空发送区
+            $("#talkwords").val("");
+            doRoll();
+        }
+
+    }
+
+
+</script>
+
+
+<script type="text/javascript">
+    var websocket = null;
+    var from = "c"+document.getElementById("from").value;
+    var to = "s"+document.getElementById("to").value;
+
+    //判断当前浏览器是否支持WebSocket
+    if('WebSocket' in window){
+        websocket = new WebSocket("ws://localhost:8080/websocket/"+from+"/"+to);
+    }
+    else{
+        alert('Not support websocket')
+    }
+
+    //连接发生错误的回调方法
+    websocket.onerror = function(){
+        setMessageInnerHTML("error");
+    };
+
+    //连接成功建立的回调方法
+    websocket.onopen = function(event){
+        console.log("连接成功");
+    }
+
+    //接收到消息的回调方法
+    websocket.onmessage = function(message){
+        //setMessageInnerHTML(event.data);
+        var Words = document.getElementById("words");
+        var str = '<div class="atalk"><span>'+message.data +'</span></div>';
+        Words.innerHTML = Words.innerHTML + str
+    }
+
+    //连接关闭的回调方法
+    websocket.onclose = function(){
+        console.log("断开连接");
+    }
+
+    //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
+    window.onbeforeunload = function(){
+        websocket.close();
+    }
+
+    //将消息显示在网页上
+    function setMessageInnerHTML(innerHTML){
+        document.getElementById('message').innerHTML += innerHTML + '<br/>';
+    }
+
+    //关闭连接
+    function closeWebSocket(){
+        websocket.close();
+    }
+
+    //发送消息
+    function send(){
+        var message = document.getElementById('talkwords').value;
+        $.ajax({
+            type: "post",
+            url: "/message",
+            dataType:"json",
+            data:{
+                content:$("#talkwords").val(),
+                from:"consumer",
+                to:"saler",
+                salerId:document.getElementById("to").value,
+            },
+            success: function (data) {
+                console.log("发送成功！");
+            }
+        });
+        websocket.send(message);
+    }
+
+</script>
+
+<script>
+    //出现滚轮自动滚到最下方
+    function doRoll()
+    {
+        var now = new Date();
+        var div = document.getElementById('words');
+        div.scrollTop = div.scrollHeight;
+    }
+    //按键发生
+    function press(event) {
+
+        if(event.keyCode == 13){
+            document.getElementById("talksub").click();
+        }
+    }
+</script>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>个性定制</title>
+</head>
+<div th:replace="consumer/consumer.html::consumerNav" ></div>
+<link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{css/car.css}">
+<script th:src="@{js/jquery-3.3.1.min.js}"></script>
+<script th:src="@{js/bootstrap.min.js}"></script>
+<script th:src="@{js/three/three.js}"></script>
+<script type="text/javascript" th:src="@{js/three/OrbitControls.js}"></script>
+<script th:src="@{js/three/GLTFLoader.js}" ></script>
+
+
+
+
+<body>
+
+<div id="control">
+    <input class="color" type="color">
+</div>
+<script th:src="@{js/three/car.js}"></script>
+
+
+</body>
+</html>

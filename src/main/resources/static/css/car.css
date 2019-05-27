@@ -1,0 +1,42 @@
+body {
+    margin: 0 ;
+    padding: 0 ;
+    overflow: hidden; /* 溢出隐藏 */
+}
+#control{
+    float:left;
+    width: 15%;
+    height: 20%;
+    right: 20px;
+    top: 20px;
+    background-color: white;
+}
+.select{
+    font-family: "微软雅黑";
+    background: rgba(0,0,0,0);
+    width: 70%;
+    height: 30%;
+    font-size: 12px;
+    color: black;
+    text-align: center;
+    border: 1px #1a1a1a solid;
+    border-radius: 5px;
+}
+.select > option{
+    color: black;
+    background: #fff;
+    line-height: 20px;
+}
+.select:focus{
+    border: 2px #0000ff solid;
+    box-shadow: 0 0 15px 1px #DDDDDD;
+}
+.select > option:hover{
+    background: #EBCCD1;
+}
+.color{
+    border: none;
+    outline: none;
+}
+::-webkit-color-swatch-wrapper{background-color:#ffffff;}
+::-webkit-color-swatch{position: relative;}

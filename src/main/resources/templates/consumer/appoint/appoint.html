@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>预约</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+    <script th:src="@{js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{js/bootstrap.min.js}"></script>
+
+    <script>
+        function update(obj){
+            var tds= $(obj).parent().parent().find('td');
+            $("#salerId").val(tds.eq(0).text());
+        }
+    </script>
+</head>
+<body>
+<div th:replace="consumer/consumer.html::consumerNav" ></div>
+<br>
+<img th:src="@{img/appoint.jpg}" style="width: 80%; height: 200px" class="center-block">
+<br>
+<table class="table table-hover text-center" style="width: 80%" align="center">
+
+    <tbody>
+    <tr th:each="p: ${saler}">
+        <td th:text="${p.getId()}" hidden="hidden"></td>
+        <td ><img th:src="${p.getPhoto()}" th:width="50px"></td>
+        <td th:text="${p.getShopname()}"></td>
+        <td th:text="${p.getDesc()}"></td>
+        <td ><a  class="btn btn-info btn-small"  data-toggle="modal" data-target="#myModal"
+                 onclick="update(this)"
+        >预约</a></td>
+    </tr>
+    </tbody>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        填写预约时间
+                    </h4>
+                </div>
+                <form action="/appointRequest" method="post">
+                <div class="modal-body">
+
+                    <div class="col-sm-10">
+                        <input type="text" id="salerId" name="salerId"  hidden="hidden"><br>
+                    </div>
+
+                    <div class="col-sm-10">
+                        <input class="form-control text-center" type="datetime-local" name="time" ><br>
+                    </div>
+                    <br><br><br><br>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="submit" class="btn btn-default">预约</button>
+                </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</table>
+</body>
+</html>

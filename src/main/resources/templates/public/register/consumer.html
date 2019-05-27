@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+    <script th:src="@{js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{js/bootstrap.min.js}"></script>
+
+    <script>
+        function checkNull(obj) {
+            var username = $("#username").val();
+            var password = $("#password").val();
+            alert(username);
+            alert(password);
+
+            if(username == "" || password == ""){
+
+                alert("用户名和密码为必填项！");
+            }else {
+                alert("注册成功！即将跳转登录页...");
+                obj.form.submit();
+            }
+        }
+    </script>
+
+
+    <style>
+        body{
+            /*background: url("../../../static/img/01.jpg");*/
+            background-size: 100%;
+            background-color:#9acfea;
+        }
+        .form{background: rgba(240,255,240,0.3);width:500px;margin:120px auto;}
+
+        .fa{display: inline-block;top: 27px;left: 6px;position: relative;color: #ccc;}
+        input[type="text"],input[type="password"]{padding-left:26px;}
+
+    </style>
+
+</head>
+<body >
+<div class="container">
+    <div class="form row">
+        <div class="center-block text-center">
+            <h3 class="form-title">普通用户注册</h3>
+        </div><br>
+        <div class="form-horizontal col-md-offset-3" id="login_form">
+
+            <div class="col-md-14">
+
+                <form action="/registerConsumer" method="post">
+                    <div class="row">
+                        <div>
+                            <label class="form-inline" >用户名：
+                            <input type="text" class="form-control" maxlength="15" id="username" name="username"/></label>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div>
+                            <label class="form-inline">密 &nbsp&nbsp&nbsp码：
+                            <input type="text" class="form-control" maxlength="15"  id="password" name="password"/></label>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div>
+                            <label class="form-inline" >昵 &nbsp&nbsp&nbsp称：
+                            <input type="text" class="form-control" maxlength="15" name="nickname"/></label>
+                        </div>
+                    </div><br>
+                    <!--<div class="row">
+                        <div class="form-inline">
+                        <form action="upload" method="post" enctype="multipart/form-data" class="form-inline">
+                            <label>选择头像:</label>
+                            <input type="file" name="file" accept="image/*" /> <br>
+                            <input type="submit" value="上传">
+                        </form>
+                        </div>
+                    </div>
+                    <br>-->
+
+                    <div class="row">
+                        <div>
+                            <label class="form-inline" >电 &nbsp&nbsp&nbsp话：
+                            <input type="text" class="form-control" name="tel" e/></label>
+                        </div>
+                    </div><br>
+                    <div class="row">
+                        <div>
+                            <label class="form-inline" >邮 &nbsp&nbsp&nbsp箱：
+                            <input type="text" class="form-control" name="email"/></label>
+                        </div>
+                    </div><br>
+
+                        <button type="button"  class="btn btn-success center-block" style="width: 100px;"
+                            onclick="checkNull(this)"    > 注册 </button>
+                    <br><br><br>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

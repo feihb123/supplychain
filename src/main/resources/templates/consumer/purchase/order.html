@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>填写订单</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+    <script th:src="@{js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{js/bootstrap.min.js}"></script>
+
+    <script>
+        function fun() {
+            var address = $("#address").text();
+            var tel = $("#tel").text();
+
+            $("#add1").val(address);
+            $("#tel1").val(tel);
+
+        }
+
+    </script>
+</head>
+<body>
+<div th:replace="consumer/consumer.html::consumerNav" ></div>
+<div class="text-center">
+
+    <br>
+    <form action="/generateCSOrder" method="post">
+
+    <table  align="center" style="width: 50%;margin-right: 300px" border="0" >
+        <tr >
+            <td  rowspan="3" style="width: 120px">默认地址</td>
+            <td class="	glyphicon glyphicon-map-marker " rowspan="3" style="zoom: 200%"></td>
+            <td th:text="${address.getName()}" style="width: 150px" id="name"></td>
+            <td><a class="btn btn-primary" style="width: 120px"
+                      th:text="'选择其他地址>'" href="#" ></a> </td>
+        </tr>
+        <tr>
+            <td th:text="' '" style="width: 100px" ></td>
+
+            <td th:text="${address.getTel()}" style="width: 150px" id="tel"></td>
+            <td th:text="''" style="width: 100px" ></td>
+        </tr>
+        <tr>
+            <td th:text="${address.getAddress()}" style="width: 100px" id="address"></td>
+            <td th:text="${address.getAddress()}" style="width: 150px" ></td>
+        </tr>
+    </table>
+        <input th:value="${product}" name="productId" hidden="hidden">
+        <input th:value="${amount}" name="amount" hidden="hidden">
+        <input  name="address" hidden="hidden" id="add1">
+        <input  name="tel" hidden="hidden" id="tel1">
+        <input  name="total" hidden="hidden" id="total1">
+
+
+    <br><br>
+    <table class="table table-hover "  align="center"  valign="middle" style="width: 75%">
+
+        <tr th:each="p: ${carts}"   >
+            <td ><img th:src="${p.getPhoto()}" style="width: 40px;height: 40px;"></td>
+            <td th:text="${p.getProductName()}" ></td>
+            <td th:text="'￥'+${p.getPrice()}"></td>
+            <td th:text="${p.getAmount()}" style="width: 10px"></td>
+            <td th:text="'￥'+${p.getTotal()}" ></td>
+        </tr>
+
+    </table>
+    <span class="label label-success" style="zoom: 200%"
+          th:text="'总价格'+${sum}" th:value="${sum}" id="total"></span>
+    <br><br><br><br>
+    <button class="btn btn-primary" style="width: 120px" onclick="fun()"
+       th:text="立即下单"  type="submit" ></button>
+
+    </form>
+</div>
+</body>
+</html>

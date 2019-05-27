@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+    <!--<link rel="stylesheet" href="css/bootstrap.min.css">-->
+    <script th:src="@{js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{js/bootstrap.min.js}"></script>
+
+
+
+
+<style>
+    body{
+        background: url("../../static/img/01.jpg");
+        background-size: 100%;
+    }
+    .form{background: rgba(240,255,240,0.3);width:400px;margin:120px auto;}
+
+    .fa{display: inline-block;top: 27px;left: 6px;position: relative;color: #ccc;}
+    input[type="text"],input[type="password"]{padding-left:26px;}
+
+</style>
+
+</head>
+<body >
+<div class="container">
+    <div class="form row">
+        <div class="center-block text-center">
+            <h3 class="form-title">登录易配</h3>
+        </div>
+        <div class="form-horizontal col-md-offset-3" id="login_form">
+
+            <div class="col-md-9">
+
+                <form action="login" method="post">
+                <div class="form-group">
+                    <i class="fa fa-user fa-lg"></i>
+                    <input class="form-control required" type="text" placeholder="Username" id="username" name="username" autofocus="autofocus" maxlength="20"/>
+                </div>
+                <div class="form-group">
+                    <i class="fa fa-lock fa-lg"></i>
+                    <input class="form-control required" type="password" placeholder="Password" id="password" name="password" maxlength="20"/>
+                </div>
+                    <br>
+                    <div class="form-group">
+                        <select name="status" class="form-control required" style="text-align-last: center;" >
+                            <option selected="selected"  value="consumer"  style="text-align: center;">消费者</option>
+                            <option value="saler">汽配商</option>
+                            <option value="wholesaler">批发商</option>
+                            <option value="producer">制造商</option>
+                            <option value="admin">平台管理员</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="form-group col-md-offset-9" style="text-align: center" >
+                        <a  class="btn btn-success pull-center" style="width: 100px;"
+                            th:href="@{/register}"    > 注册 </a>&nbsp;&nbsp;&nbsp;
+                        <button type="submit" class="btn btn-success pull-center" style="width: 100px;"
+                                name="submit" > 登录 </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

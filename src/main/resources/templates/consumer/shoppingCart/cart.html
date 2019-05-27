@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>购物车</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+    <script th:src="@{js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{js/bootstrap.min.js}"></script>
+
+    <script>
+        $(document).ready(function(){
+            var checked = [];
+            $("#sub").click(function(){
+                $('input:checkbox:checked').each(function() {
+                    checked.push($(this).val());
+                });
+                if(0 == checked.length){
+                    alert("未选择商品");
+
+                }else{
+                    var pros = JSON.stringify(checked);
+                    $("#pros").val(pros);
+                    this.form.submit();
+                }
+            });
+        });
+
+
+    </script>
+</head>
+<body>
+<div th:replace="consumer/consumer.html::consumerNav" ></div>
+<div class="text-center">
+
+    <br>
+    <table class="table table-hover "  align="center"  valign="middle" style="width: 75%">
+
+        <!--<tr th:each="shop: ${shop}">
+            <td th:text="${shop}" class="glyphicon glyphicon-shopping-cart"></td>
+            <td>-->
+
+        <tr th:each="p: ${list}"   >
+            <td ><input type="checkbox" style="zoom:180%;vertical-align: middle" th:value="${p.getSid()}"></td>
+            <td ><img th:src="${p.getPhoto()}" style="width: 80px;height: 80px;"></td>
+            <td th:text="${p.getProductName()}" ></td>
+
+            <td th:text="'￥'+${p.getPrice()}"></td>
+            <td ><a class="btn btn-info" th:href="@{/subCart(sid = ${p.getSid()})}" >-</a></td>
+            <td th:text="${p.getAmount()}" style="width: 10px"></td>
+            <td ><a class="btn btn-info" th:href="@{/incCart(sid = ${p.getSid()})}" >+</a></td>
+            <td th:text="'￥'+${p.getTotal()}" ></td>
+            <td ><a class="btn btn-info btn-small "
+                    th:href="@{/delCart(sid = ${p.getSid()})}"
+            >删除</a></td>
+        </tr>
+
+            <!--</td>-->
+
+    </table>
+    <form action="/buy">
+        <input type="text" hidden="hidden" id="pros" name="pros">
+        <button class="btn btn-info btn-small " style="margin-left: 950px;width: 150px" id="sub" type="button"
+           >结算</button>
+    </form>
+</div>
+</body>
+</html>

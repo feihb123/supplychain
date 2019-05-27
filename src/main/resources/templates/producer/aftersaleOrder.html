@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>售后订单</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}">
+    <script th:src="@{js/jquery-3.3.1.min.js}"></script>
+    <script th:src="@{js/bootstrap.min.js}"></script>
+    <script>
+        function aftersale() {
+            var msg = "您确定此售后已完成？\n";
+            if (confirm(msg)==true){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    </script>
+</head>
+<body>
+<div th:replace="producer/producer.html::proNav" ></div>
+
+<div class="panel panel-default center-block">
+    <div class="page-header text-center">
+        <h3>售后订单</h3>
+    </div>
+    <table class="table table-hover text-center">
+        <thead>
+        <tr>
+            <th class="text-center">订单号</th>
+            <th class="text-center">创建时间</th>
+            <th class="text-center">联系电话</th>
+            <th class="text-center">收货地址</th>
+            <th class="text-center">操作</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="p: ${list}">
+            <td th:text="${p.getOrderId()}"></td>
+            <td th:text="${p.getTime()}"></td>
+            <td th:text="${p.getPhone()}"></td>
+            <td th:text="${p.getAddress()}"></td>
+            <td ><a class="btn btn-info btn-small"
+                    th:href="@{/dealAftersale(orderId=${p.getOrderId()})}"
+                    onclick="javascript:return aftersale()"
+            >处理</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
