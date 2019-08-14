@@ -1,6 +1,6 @@
 汽配供应链综合管理平台
 -
-![supplychain](https://github.com/feihb123/images/supplychain.png)
+![supplychain](https://github.com/feihb123/images/blob/master/supplychain.png)
 1. 角色：
 - 制造商
 - 批发商
